@@ -21,16 +21,54 @@ Finance Tracker is a web application built with Streamlit that helps users manag
 - **Data Manipulation:** Pandas
 - **Data Visualization:** Plotly
 - **AI/LLM:** Cohere
+- **Containerization:** Docker & Docker Compose
 
 ## Getting Started
 
 ### Prerequisites
 
-- Python 3.10+
-- PostgreSQL 14+ running locally or a cloud instance (Railway, Supabase, Neon, etc.)
 - A Cohere API key — https://dashboard.cohere.com/api-keys
+- **Docker route:** Docker Desktop (recommended)
+- **Local route:** Python 3.10+, PostgreSQL 14+
 
-### Installation
+---
+
+### Option A — Docker (recommended)
+
+No local PostgreSQL installation required. PostgreSQL data persists in a named Docker volume.
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/jamsshid/finance-tracker.git
+   cd finance-tracker
+   ```
+
+2. Set up environment variables:
+   ```sh
+   copy .env.example .env       # Windows
+   # cp .env.example .env       # macOS/Linux
+   ```
+   Edit `.env` and set your `COHERE_API_KEY`. The default `DATABASE_URL` and `POSTGRES_PASSWORD` already match the Compose service — change them only if needed.
+
+3. Build and start all services:
+   ```sh
+   docker compose up --build
+   ```
+   Tables are created automatically on first startup.
+
+4. Open **http://localhost:8501** in your browser.
+
+**Useful commands:**
+```sh
+docker compose up -d          # Run in background
+docker compose down           # Stop and remove containers
+docker compose down -v        # Stop and also delete the database volume
+docker compose logs -f app    # Stream app logs
+```
+
+---
+
+### Option B — Local (manual setup)
 
 1. Clone the repository:
    ```sh
@@ -60,7 +98,7 @@ Finance Tracker is a web application built with Streamlit that helps users manag
    copy .env.example .env       # Windows
    # cp .env.example .env       # macOS/Linux
    ```
-   Edit `.env` and fill in your `DATABASE_URL` and `COHERE_API_KEY`.
+   Edit `.env`: set `DATABASE_URL` to use `localhost` as the host (see the commented example in `.env.example`) and fill in your `COHERE_API_KEY`.
 
 6. Run the app — tables are created automatically on first startup:
    ```sh
@@ -77,8 +115,12 @@ Finance Tracker is a web application built with Streamlit that helps users manag
 │   ├── report.py          # Financial reports and AI chatbot
 │   ├── transaction_log.py # Add income and expenses
 │   └── view_transactions.py # View and delete transactions
-└── utils/
-    ├── db.py              # PostgreSQL connection factory and schema init
-    ├── expenseTracker.py  # ExpenseManager, IncomeManager, Account classes
-    └── financebot.py      # Cohere API wrapper for financial insights
+├── utils/
+│   ├── db.py              # PostgreSQL connection factory and schema init
+│   ├── expenseTracker.py  # ExpenseManager, IncomeManager, Account classes
+│   └── financebot.py      # Cohere API wrapper for financial insights
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example
+└── requirements.txt
 ```
