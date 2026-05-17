@@ -105,6 +105,16 @@ docker compose logs -f app    # Stream app logs
    streamlit run home.py
    ```
 
+## Testing
+
+Unit tests cover `ExpenseManager`, `IncomeManager`, and `Account` using mocked database connections — no running database required.
+
+```sh
+pytest
+```
+
+Tests live in `tests/` and are discovered automatically via `pytest.ini`. The mock fixture in `tests/conftest.py` stubs the PostgreSQL connection so tests run in isolation.
+
 ## Project Structure
 
 ```

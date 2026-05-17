@@ -5,3 +5,5 @@ plotly-express>=0.4.1
 cohere>=4.37
 python-dotenv>=1.0.0
 psycopg2-binary>=2.9.0
+pytest>=9.0
+pytest-mock>=3.15
