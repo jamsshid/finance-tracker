@@ -10,21 +10,12 @@ from utils.financebot import get_budget_insights
 load_dotenv()
 api_key = os.getenv("COHERE_API_KEY")
 co = cohere.Client(api_key)
-load_dotenv()
-test_key = os.getenv("COHERE_API_KEY")
-if test_key:
-    # This prints only the first 4 characters for security
-    st.write(f"✅ Key loaded successfully! Starts with: {test_key[:4]}")
-else:
-    st.error("❌ Key not found. Check file name and location.")
 
 if "logged_in" not in st.session_state or not st.session_state.logged_in:
     st.warning("Please log in first.")
     st.stop()
 
-user_email = st.session_state.user_email
-db_name = f"{user_email}.db"
-account = Account(db_name=db_name)
+account = Account(st.session_state.user_id)
 
 st.title("📊 Financial Reports")
 st.write("A finance report of your cash.")

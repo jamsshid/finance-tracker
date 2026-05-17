@@ -6,9 +6,7 @@ if "logged_in" not in st.session_state or not st.session_state.logged_in:
     st.warning("Please log in to continue :)")
     st.stop()
 
-user_email = st.session_state.user_email
-db_name = f"{user_email}.db"
-account = Account(db_name=db_name)
+account = Account(st.session_state.user_id)
 
 
 st.title("💵 Log Transactions")

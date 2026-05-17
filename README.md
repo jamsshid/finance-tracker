@@ -12,64 +12,73 @@ Finance Tracker is a web application built with Streamlit that helps users manag
   - Income breakdown by source (Pie Chart).
   - Monthly income vs. expense trends (Area & Stacked Bar Charts).
 - **AI Finance Bot:** A chatbot integrated with Cohere's API to provide personalized financial insights and advice based on your transaction history.
-- **Personalized Data Storage:** Each user's financial data is stored in a separate, dedicated SQLite database for privacy.
+- **Multi-user support:** All user data is isolated by user ID in a shared PostgreSQL database.
 
 ## Technologies Used
 
 - **Framework:** Streamlit
-- **Database:** SQLite3
+- **Database:** PostgreSQL (psycopg2-binary)
 - **Data Manipulation:** Pandas
 - **Data Visualization:** Plotly
 - **AI/LLM:** Cohere
 
 ## Getting Started
 
-Follow these instructions to get a copy of the project up and running on your local machine.
-
 ### Prerequisites
 
-- Python 3.8+
-- A Cohere API key
+- Python 3.10+
+- PostgreSQL 14+ running locally or a cloud instance (Railway, Supabase, Neon, etc.)
+- A Cohere API key — https://dashboard.cohere.com/api-keys
 
 ### Installation
 
-1.  **Clone the repository:**
-    ```sh
-    git clone https://github.com/jamsshid/finance-tracker.git
-    cd finance-tracker
-    ```
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/jamsshid/finance-tracker.git
+   cd finance-tracker
+   ```
 
-2.  **Install the required Python packages:**
-    ```sh
-    pip install streamlit pandas plotly-express cohere python-dotenv
-    ```
+2. Create and activate a virtual environment:
+   ```sh
+   python -m venv venv
+   venv\Scripts\activate        # Windows
+   # source venv/bin/activate   # macOS/Linux
+   ```
 
-3.  **Set up your environment variables:**
-    - Create a file named `.env` in the root directory of the project.
-    - Add your Cohere API key to this file:
-      ```
-      COHERE_API_KEY='your_cohere_api_key_here'
-      ```
+3. Install dependencies:
+   ```sh
+   pip install -r requirements.txt
+   ```
 
-### Running the Application
+4. Create a PostgreSQL database:
+   ```sql
+   CREATE DATABASE finance_tracker;
+   ```
 
-1.  Execute the following command in your terminal from the project's root directory:
-    ```sh
-    streamlit run home.py
-    ```
+5. Set up environment variables:
+   ```sh
+   copy .env.example .env       # Windows
+   # cp .env.example .env       # macOS/Linux
+   ```
+   Edit `.env` and fill in your `DATABASE_URL` and `COHERE_API_KEY`.
 
-2.  The application will open in your web browser. You can register a new account or log in if you already have one.
+6. Run the app — tables are created automatically on first startup:
+   ```sh
+   streamlit run home.py
+   ```
 
 ## Project Structure
 
 ```
 .
-├── home.py                # Main application file, handles login/registration
-├── auth.py                # Manages user authentication logic (registration, login)
+├── home.py                # Entry point — login/register, DB initialization
+├── auth.py                # User authentication (register, login)
 ├── pages/
-│   ├── report.py          # Generates financial reports and hosts the AI bot
-│   ├── transaction_log.py # Page for adding new income/expenses
-│   └── view_transactions.py # Page for viewing and deleting existing transactions
+│   ├── report.py          # Financial reports and AI chatbot
+│   ├── transaction_log.py # Add income and expenses
+│   └── view_transactions.py # View and delete transactions
 └── utils/
-    ├── expenseTracker.py  # Core logic for managing accounts, income, and expenses
-    └── financebot.py      # Handles communication with the Cohere API for the AI assistant
+    ├── db.py              # PostgreSQL connection factory and schema init
+    ├── expenseTracker.py  # ExpenseManager, IncomeManager, Account classes
+    └── financebot.py      # Cohere API wrapper for financial insights
+```
