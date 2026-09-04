@@ -1,4 +1,4 @@
-# finance-tracker
+# Finance-Tracker
 
 Finance Tracker is a web application built with Streamlit that helps users manage their personal finances. It provides features for logging income and expenses, viewing detailed transaction history, and generating insightful financial reports. The application also includes an AI-powered chatbot to answer financial questions and provide budget advice based on user data.
 
